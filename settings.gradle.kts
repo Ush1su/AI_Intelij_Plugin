@@ -1,0 +1,1 @@
+rootProject.name = "AI_Explainer_Plugin"

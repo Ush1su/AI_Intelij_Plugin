@@ -1,0 +1,55 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>com.example.explainer</id>
+    <name>Explainer and Smart Autocomplete</name>
+    <vendor email="you@example.com">You</vendor>
+
+    <actions>
+        <group id="ExplainerPlugin.Group"
+               text="Explainer Plugin"
+               description="AI explanation actions"
+               popup="true">
+
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+
+            <action id="ExplainerPlugin.ExplainSelectedText"
+                    class="com.example.ai_explainer_plugin.actions.ExplainSelectedTextAction"
+                    text="Explain Selected Text"
+                    description="Explain the selected text"/>
+
+            <action id="ExplainerPlugin.ExplainMethod"
+                    class="com.example.ai_explainer_plugin.actions.ExplainSelectedMethodAction"
+                    text="Explain Method"
+                    description="Explain the surrounding function"/>
+            <action
+
+            <separator/>
+
+            <action id="ExplainerPlugin.ExplainFile"
+                    class="com.example.ai_explainer_plugin.actions.ExplainFileAction"
+                    text="Explain File"
+                    description="Explain the current file"/>
+        </group>
+    </actions>
+
+    <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
+         Guidelines: https://plugins.jetbrains.com/docs/marketplace/best-practices-for-listing.html#plugin-description -->
+    <description><![CDATA[
+        Enter short description for your plugin here.<br>
+        <em>most HTML tags may be used</em>
+    ]]></description>
+
+    <!-- Product and plugin compatibility requirements.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <!-- Extension points defined by the plugin.
+         Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow
+                id="Explainer"
+                anchor="right"
+                canCloseContents="true"
+                factoryClass="com.example.ai_explainer_plugin.ui.ExplainerToolWindowFactory"/>
+    </extensions>
+</idea-plugin>
