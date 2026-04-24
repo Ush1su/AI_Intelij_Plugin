@@ -1,6 +1,6 @@
 package com.example.ai_explainer_plugin.actions
 
-import com.example.ai_explainer_plugin.services.llm.LLMService
+import com.example.ai_explainer_plugin.llm.LLMService
 import com.example.ai_explainer_plugin.ui.ExplainerToolWindowManager
 import com.intellij.openapi.actionSystem.*
 import com.intellij.openapi.application.EDT

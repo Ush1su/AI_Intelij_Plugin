@@ -6,9 +6,7 @@ import com.example.ai_explainer_plugin.context.EditorContextExtractor
 
 class ExplainSelectedMethodAction : AnAction() {
 
-    override fun getActionUpdateThread(): ActionUpdateThread {
-        return ActionUpdateThread.BGT
-    }
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
 
     override fun update(e: AnActionEvent) {
         val editorContext = EditorContextExtractor.extract(e)

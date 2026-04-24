@@ -21,7 +21,13 @@
                     class="com.example.ai_explainer_plugin.actions.ExplainSelectedMethodAction"
                     text="Explain Method"
                     description="Explain the surrounding function"/>
-            <action
+
+            <action id="ExplainerPlugin.GenerateCode"
+                    class="com.example.ai_explainer_plugin.actions.GenerateCodeAction"
+                    text="Generate Code"
+                    description="Generate code at the cursor">
+                <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+
 
             <separator/>
 

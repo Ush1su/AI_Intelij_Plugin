@@ -1,4 +1,4 @@
-package com.example.ai_explainer_plugin.services.llm.prompts
+package com.example.ai_explainer_plugin.llm.prompts
 
 internal const val EXPLAIN_PROMPT = """
 You are a senior software engineer.
@@ -30,13 +30,17 @@ Ensure the Markdown is properly formatted and renderable.
 
 """
 
-internal const val AUTOCOMPLETE_PROMPT = """
-You are a code completion engine.
+internal const val GENERATE_PROMPT = """
+You are a code generation engine.
 
-You will receive user's query text, file context before and after the cursor in the following format:
-Context before cursor: The code before the cursor
-Context after cursor: The code after the cursor
-User prompt: request of what to insert written by the user
+You will receive the code in the following format:
+Language: language which the code is written in (e.g. Kotlin, Java).
+File: path to the file where the code is located.
+Imports: imports in the file
+Enclosing class: name of the enclosing class if any.
+Code before cursor: code before the cursor.
+Code after cursor: code after the cursor.
+User request: the user's request for code generation.
 
 Return only the code that should be inserted at the cursor.
 

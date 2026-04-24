@@ -1,7 +1,5 @@
-package com.example.ai_explainer_plugin.services.llm
+package com.example.ai_explainer_plugin.llm
 
-import com.example.ai_explainer_plugin.services.llm.prompts.AUTOCOMPLETE_PROMPT
-import com.example.ai_explainer_plugin.services.llm.prompts.EXPLAIN_PROMPT
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 import kotlinx.coroutines.CoroutineScope
@@ -17,6 +15,9 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.Duration
+import com.example.ai_explainer_plugin.context.GenerationContext
+import com.example.ai_explainer_plugin.llm.prompts.LLMPromptDTO
+
 
 @Service(Service.Level.PROJECT)
 class LLMService(
@@ -33,51 +34,27 @@ class LLMService(
         .build()
 
     suspend fun explain(content: String): String {
-        val userPrompt = """
-            Explain the following content:
+        val prompt = PromptBuilder.buildExplainPrompt(content)
 
-            ```
-            $content
-            ```
-        """.trimIndent()
-
-        return ask(EXPLAIN_PROMPT, userPrompt)
+        return ask(prompt)
     }
 
-    suspend fun autocomplete(
-        beforeCursor: String,
-        afterCursor: String,
-        userWrittenPrompt: String,
+    suspend fun generateCode(
+        generationContext: GenerationContext,
     ): String {
-        val userPrompt = """
-            Context before cursor:
-            ```
-            $beforeCursor
-            ```
-
-            Context after cursor:
-            ```
-            $afterCursor
-            ```
-            User prompt:
-            $userWrittenPrompt
-            
-            Return only the completion to insert at the cursor.
-        """.trimIndent()
-
-        return ask(AUTOCOMPLETE_PROMPT, userPrompt)
+        val prompt = PromptBuilder.buildGenerationPrompt(generationContext)
+        return ask(prompt)
     }
 
     private suspend fun ask(
-        systemPrompt: String,
-        userPrompt: String,
+        prompt: LLMPromptDTO,
     ): String = withContext(Dispatchers.IO) {
 
         val requestBody = ResponsesRequest(
             model = MODEL,
             input = listOf(
-                Message(role = "developer", content = systemPrompt),
-                Message(role = "user", content = userPrompt),
+                Message(role = "developer", content = prompt.systemPrompt),
+                Message(role = "user", content = prompt.userPrompt),
             )
         )
 
