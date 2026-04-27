@@ -1,20 +1,16 @@
 package com.example.ai_explainer_plugin.actions
 
-import com.example.ai_explainer_plugin.llm.LLMService
-import com.example.ai_explainer_plugin.ui.ExplainerToolWindowManager
 import com.intellij.openapi.actionSystem.*
-import com.intellij.openapi.application.EDT
 import com.intellij.openapi.components.service
 import com.intellij.openapi.editor.Editor
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import com.example.ai_explainer_plugin.context.PsiCodeExtractor
-import com.example.ai_explainer_plugin.context.EditorContextExtractor
+import com.example.ai_explainer_plugin.context.extractors.EditorContextExtractor
+import com.example.ai_explainer_plugin.services.AiActionService
+import com.intellij.openapi.diagnostic.Logger
 
 class ExplainSelectedTextAction : AnAction() {
-
+    companion object {
+        private val LOG = Logger.getInstance(ExplainSelectedTextAction::class.java)
+    }
     override fun getActionUpdateThread(): ActionUpdateThread {
         return ActionUpdateThread.BGT
     }
@@ -27,28 +23,11 @@ class ExplainSelectedTextAction : AnAction() {
     }
 
     override fun actionPerformed(e: AnActionEvent) {
-        val project = e.project ?: return
+        LOG.info("ExplainSelectedTextAction clicked")
         val editorContext = EditorContextExtractor.extract(e) ?: return
-        val selectedText = PsiCodeExtractor.getSelectedText(editorContext) ?: return
-
-        val llmService = project.service<LLMService>()
-        val toolWindowManager = project.service<ExplainerToolWindowManager>()
-
-        val resultTab = toolWindowManager.createResultTab() ?: return
-        resultTab.showLoading()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val explanation = llmService.explain(selectedText)
-
-                withContext(Dispatchers.EDT) {
-                    resultTab.showExplanation(explanation)
-                }
-            } catch (t: Throwable) {
-                withContext(Dispatchers.EDT) {
-                    resultTab.showError(t.message ?: "Unknown error")
-                }
-            }
-        }
+        LOG.info("EditorContext extracted. selectedText=${editorContext.selectedText?.length ?: 0} chars")
+        val actionService = editorContext.project.service<AiActionService>()
+        actionService.explain(editorContext)
+        LOG.info("ExplainSelectedTextAction finished")
     }
 }

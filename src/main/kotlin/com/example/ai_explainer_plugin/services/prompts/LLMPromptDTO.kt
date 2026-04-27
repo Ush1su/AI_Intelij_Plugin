@@ -1,4 +1,4 @@
-package com.example.ai_explainer_plugin.llm.prompts
+package com.example.ai_explainer_plugin.services.prompts
 
 data class LLMPromptDTO(
     val systemPrompt: String,

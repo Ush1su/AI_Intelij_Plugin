@@ -1,5 +1,6 @@
-package com.example.ai_explainer_plugin.llm
+package com.example.ai_explainer_plugin.services
 
+import com.example.ai_explainer_plugin.context.dto.ExplainContext
 import com.intellij.openapi.components.Service
 import com.intellij.openapi.project.Project
 import kotlinx.coroutines.CoroutineScope
@@ -15,14 +16,14 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import java.time.Duration
-import com.example.ai_explainer_plugin.context.GenerationContext
-import com.example.ai_explainer_plugin.llm.prompts.LLMPromptDTO
+import com.example.ai_explainer_plugin.context.dto.GenerationContext
+import com.example.ai_explainer_plugin.services.prompts.LLMPromptDTO
 
 
 @Service(Service.Level.PROJECT)
 class LLMService(
-    @Suppress("unused") private val project: Project,
-    @Suppress("unused") private val scope: CoroutineScope,
+    private val project: Project,
+    private val scope: CoroutineScope,
 ) {
     private val json = Json { ignoreUnknownKeys = true }
     private val apiKey = System.getenv("OPENAI_API_KEY")
@@ -33,9 +34,8 @@ class LLMService(
         .connectTimeout(Duration.ofSeconds(10))
         .build()
 
-    suspend fun explain(content: String): String {
+    suspend fun explainCode(content: ExplainContext): String {
         val prompt = PromptBuilder.buildExplainPrompt(content)
-
         return ask(prompt)
     }
 

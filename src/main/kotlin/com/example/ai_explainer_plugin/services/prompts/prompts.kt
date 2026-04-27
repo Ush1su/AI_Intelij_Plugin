@@ -1,9 +1,16 @@
-package com.example.ai_explainer_plugin.llm.prompts
+package com.example.ai_explainer_plugin.services.prompts
 
 internal const val EXPLAIN_PROMPT = """
 You are a senior software engineer.
 
 Explain the following code.
+You will receive the code in the following format:
+Language: language which the code is written in (e.g. Kotlin, Java).
+File: path to the file where the code is located.
+Imports: imports in the file
+Enclosing class: name of the enclosing class if any.
+Enclosing method: name of the enclosing method if any.
+Code that you must explain: the code to be explained.
 
 Return the answer ONLY in valid Markdown.
 
