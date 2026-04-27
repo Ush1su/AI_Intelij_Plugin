@@ -25,7 +25,7 @@ class ExplainSelectedTextAction : AnAction() {
     override fun actionPerformed(e: AnActionEvent) {
         LOG.info("ExplainSelectedTextAction clicked")
         val editorContext = EditorContextExtractor.extract(e) ?: return
-        LOG.info("EditorContext extracted. selectedText=${editorContext.selectedText?.length ?: 0} chars")
+        LOG.info("EditorContext extracted. selectedText: ${editorContext.selectedText?.length ?: 0} chars")
         val actionService = editorContext.project.service<AiActionService>()
         actionService.explain(editorContext)
         LOG.info("ExplainSelectedTextAction finished")

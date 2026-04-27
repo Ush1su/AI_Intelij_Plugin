@@ -41,7 +41,7 @@ class AiActionService(
         val generationContext = GenerationContextExtractor.extract(editorContext, userPrompt)
         val insertOffset = editorContext.offset
         val editor = editorContext.editor
-
+        LOG.info("GenerationContext extracted: $generationContext")
         scope.launch {
             try {
                 val generatedCode = llmService.generateCode(generationContext)
@@ -71,7 +71,7 @@ class AiActionService(
         val explainContext = ReadAction.compute<ExplainContext?, RuntimeException> {
             ExplainContextExtractor.extract(editorContext)
         }
-        println(explainContext)
+        LOG.info("ExplainContext extracted: $explainContext")
         scope.launch {
             try {
                 val explanation = llmService.explainCode(explainContext!!)

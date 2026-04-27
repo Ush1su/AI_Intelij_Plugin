@@ -19,7 +19,6 @@ object EditorContextExtractor {
         val element_ = ReadAction.compute<_, RuntimeException> {
             psiFile.findElementAt(offset)
         }
-
         return EditorContext(
             project = project,
             editor = editor,
