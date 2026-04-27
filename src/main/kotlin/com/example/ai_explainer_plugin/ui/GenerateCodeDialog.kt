@@ -8,7 +8,7 @@ import javax.swing.JComponent
 import javax.swing.JPanel
 
 class GenerateCodeDialog(project: Project) : DialogWrapper(project) {
-    private val promptArea = JBTextArea(8, 50).apply {
+    private val promptArea = JBTextArea(8, 200).apply {
         lineWrap = true
         wrapStyleWord = true
         emptyText.text = "Describe what code should be generated..."

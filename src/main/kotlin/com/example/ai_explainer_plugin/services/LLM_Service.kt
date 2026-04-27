@@ -18,6 +18,7 @@ import java.net.http.HttpResponse
 import java.time.Duration
 import com.example.ai_explainer_plugin.context.dto.GenerationContext
 import com.example.ai_explainer_plugin.services.prompts.LLMPromptDTO
+import com.intellij.openapi.diagnostic.Logger
 
 
 @Service(Service.Level.PROJECT)
@@ -71,21 +72,24 @@ class LLMService(
             .await()
 
         if (response.statusCode() !in 200..299) {
+            LOG.error("OpenAI request failed: ${response.statusCode()} ${response.body()}")
             error("OpenAI request failed: ${response.statusCode()} ${response.body()}")
         }
 
         val parsed = json.decodeFromString<ResponsesResponse>(response.body())
-
-        parsed.output
+        val output = parsed.output
             .flatMap { it.content }
             .firstOrNull { it.type == "output_text" }
             ?.text
             ?.trim()
             .orEmpty()
+        LOG.info("LLM answer=$output")
+        output
     }
 
     companion object {
         private const val MODEL = "gpt-5-nano"
+        private val LOG = Logger.getInstance(AiActionService::class.java)
     }
 }
 
@@ -94,7 +98,7 @@ private data class ResponsesRequest(
     val model: String,
     val input: List<Message>,
     @SerialName("max_output_tokens")
-    val maxOutputTokens: Int = 500
+    val maxOutputTokens: Int = 350
 )
 
 @Serializable

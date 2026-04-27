@@ -2,6 +2,7 @@ package com.example.ai_explainer_plugin.services
 
 import com.example.ai_explainer_plugin.context.dto.EditorContext
 import com.example.ai_explainer_plugin.context.dto.ExplainContext
+import com.example.ai_explainer_plugin.context.dto.GenerationContext
 import com.example.ai_explainer_plugin.context.extractors.ExplainContextExtractor
 import com.example.ai_explainer_plugin.context.extractors.GenerationContextExtractor
 import com.example.ai_explainer_plugin.ui.CodePreviewDialog
@@ -38,27 +39,34 @@ class AiActionService(
         val userPrompt = inputDialog.getPrompt()
         if (userPrompt.isBlank()) return
 
-        val generationContext = GenerationContextExtractor.extract(editorContext, userPrompt)
+        val generationContext = ReadAction.compute<GenerationContext, RuntimeException> {
+            GenerationContextExtractor.extract(editorContext, userPrompt)
+        }
+
         val insertOffset = editorContext.offset
         val editor = editorContext.editor
+
+        val previewDialog = CodePreviewDialog(project) { acceptedCode ->
+            WriteCommandAction.runWriteCommandAction(project) {
+                editor.document.insertString(insertOffset, acceptedCode)
+            }
+        }
+
+        previewDialog.show()
         LOG.info("GenerationContext extracted: $generationContext")
         scope.launch {
             try {
                 val generatedCode = llmService.generateCode(generationContext)
 
                 withContext(Dispatchers.EDT) {
-                    val previewDialog = CodePreviewDialog(project, generatedCode)
-                    if (!previewDialog.showAndGet()) return@withContext
-
-                    val acceptedCode = previewDialog.getCode()
-
-                    WriteCommandAction.runWriteCommandAction(project) {
-                        editor.document.insertString(insertOffset, acceptedCode)
+                    if (previewDialog.isShowing) {
+                        previewDialog.showGeneratedCode(generatedCode)
                     }
                 }
             } catch (t: Throwable) {
+                LOG.error("Generation failed: ${t.message}")
                 withContext(Dispatchers.EDT) {
-                    LOG.error("Generation failed: ${t.message}")
+                    previewDialog.showError(t.message ?: "")
                 }
             }
         }
@@ -82,7 +90,7 @@ class AiActionService(
             } catch (t: Throwable) {
                 LOG.error("Explanation failed: ${t.message}")
                 withContext(Dispatchers.EDT) {
-                    resultTab.showError(t.message ?: "Explanation failed")
+                    resultTab.showError(t.message ?: "")
                 }
             }
         }

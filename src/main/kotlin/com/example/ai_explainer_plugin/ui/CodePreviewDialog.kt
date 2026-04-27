@@ -10,11 +10,12 @@ import javax.swing.JPanel
 
 class CodePreviewDialog(
     project: Project,
-    generatedCode: String,
-) : DialogWrapper(project) {
-    private val codeArea = JBTextArea(generatedCode, 18, 70).apply {
+    private val onAccept: ((String) -> Unit)? = null,
+) : DialogWrapper(project, true, IdeModalityType.MODELESS) {
+
+    private val codeArea = JBTextArea("Generating code...", 18, 70).apply {
         lineWrap = false
-        isEditable = true
+        isEditable = false
     }
 
     init {
@@ -22,6 +23,7 @@ class CodePreviewDialog(
         setOKButtonText("Accept")
         setCancelButtonText("Discard")
         init()
+        isOKActionEnabled = false
     }
 
     override fun createCenterPanel(): JComponent {
@@ -30,5 +32,24 @@ class CodePreviewDialog(
         }
     }
 
+    fun showGeneratedCode(code: String) {
+        codeArea.text = code
+        codeArea.caretPosition = 0
+        codeArea.isEditable = true
+        isOKActionEnabled = true
+    }
+
+    fun showError(message: String) {
+        codeArea.text = "Generation failed:\n\n$message"
+    }
+
     fun getCode(): String = codeArea.text
+
+    override fun doOKAction() {
+        val acceptedCode = getCode()
+
+        onAccept?.invoke(acceptedCode)
+
+        super.doOKAction()
+    }
 }
