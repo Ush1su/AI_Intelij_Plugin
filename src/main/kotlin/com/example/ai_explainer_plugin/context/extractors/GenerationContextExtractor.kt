@@ -3,6 +3,9 @@ package com.example.ai_explainer_plugin.context.extractors
 import com.example.ai_explainer_plugin.context.dto.EditorContext
 import com.example.ai_explainer_plugin.context.dto.GenerationContext
 
+/**
+ * Extracts the GenerationContext from the EditorContext.
+ */
 object GenerationContextExtractor {
     private const val BEFORE_CURSOR_LIMIT = 2_000
     private const val AFTER_CURSOR_LIMIT = 2_000

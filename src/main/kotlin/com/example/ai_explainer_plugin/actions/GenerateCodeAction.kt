@@ -15,11 +15,16 @@ class GenerateCodeAction : AnAction() {
 
     override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
 
+    /**
+     * Enables the action only if there is an editor open.
+     */
     override fun update(e: AnActionEvent) {
         val hasEditor = e.getData(CommonDataKeys.EDITOR) != null
         e.presentation.isEnabledAndVisible = hasEditor
     }
-
+    /**
+     * Extracts the editor context and calls the AiActionService to generate code.
+     */
     override fun actionPerformed(e: AnActionEvent) {
         LOG.info("GenerateCodeAction clicked")
         val editorContext = ReadAction.compute<EditorContext?, RuntimeException> {

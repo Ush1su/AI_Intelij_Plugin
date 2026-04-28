@@ -6,6 +6,9 @@ import com.example.ai_explainer_plugin.services.prompts.LLMPromptDTO
 import com.example.ai_explainer_plugin.services.prompts.EXPLAIN_PROMPT
 import com.example.ai_explainer_plugin.services.prompts.GENERATE_PROMPT
 
+/**
+ * Builds the prompt for the LLM based on the context.
+ */
 object PromptBuilder {
 
     fun buildExplainPrompt(context: ExplainContext): LLMPromptDTO {

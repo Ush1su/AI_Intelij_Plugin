@@ -20,7 +20,10 @@ import com.example.ai_explainer_plugin.context.dto.GenerationContext
 import com.example.ai_explainer_plugin.services.prompts.LLMPromptDTO
 import com.intellij.openapi.diagnostic.Logger
 
-
+/**
+ * LLM Service that interacts with the OpenAI API.
+ * Has asynchronous methods to send requests to the LLM to not block the UI of IDE.
+ */
 @Service(Service.Level.PROJECT)
 class LLMService(
     private val project: Project,
@@ -48,6 +51,10 @@ class LLMService(
         return ask(prompt)
     }
 
+    /**
+     * Sends a request to the LLM and returns the response.
+     * Uses coroutine context Dispatchers.IO to not block the UI.
+     */
     private suspend fun ask(
         prompt: LLMPromptDTO,
     ): String = withContext(Dispatchers.IO) {

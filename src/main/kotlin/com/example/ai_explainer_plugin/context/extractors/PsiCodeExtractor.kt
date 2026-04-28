@@ -9,6 +9,9 @@ import com.intellij.psi.PsiMethod
 import com.intellij.psi.util.PsiTreeUtil
 
 
+/**
+ * Helper class that extracts code data from the PSI tree.
+ */
 object PsiCodeExtractor {
     fun getEnclosingMethodText(context: EditorContext): String? {
         val element = context.element ?: return null

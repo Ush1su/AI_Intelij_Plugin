@@ -8,6 +8,9 @@ import java.awt.BorderLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
 
+/**
+ * Dialog class for displaying the generated code.
+ */
 class CodePreviewDialog(
     project: Project,
     private val onAccept: ((String) -> Unit)? = null,

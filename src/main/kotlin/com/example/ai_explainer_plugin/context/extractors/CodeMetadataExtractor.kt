@@ -4,6 +4,9 @@ import com.example.ai_explainer_plugin.context.dto.EditorContext
 import com.example.ai_explainer_plugin.context.dto.CodeMetadata
 import com.example.ai_explainer_plugin.context.extractors.PsiCodeExtractor
 
+/**
+ * Extracts metadata about the code in the editor from the EditorContext.
+ */
 object CodeMetadataExtractor {
     fun extract(context: EditorContext): CodeMetadata {
         return CodeMetadata(

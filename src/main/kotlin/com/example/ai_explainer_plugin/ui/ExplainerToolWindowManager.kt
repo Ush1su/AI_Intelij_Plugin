@@ -6,6 +6,9 @@ import com.intellij.openapi.wm.ToolWindowManager
 import com.intellij.ui.content.Content
 import com.intellij.ui.content.ContentFactory
 
+/**
+ * Service that manages the tool window of the plugin.
+ */
 @Service(Service.Level.PROJECT)
 class ExplainerToolWindowManager(private val project: Project) {
 
@@ -30,6 +33,9 @@ class ExplainerToolWindowManager(private val project: Project) {
     }
 }
 
+/**
+ * Wrapper around the ExplainerPanel that simply managing what is shown in the tab of tool window.
+ */
 class ExplainerResultHandle(
     private val panel: ExplainerPanel,
     private val content: Content,
@@ -44,9 +50,5 @@ class ExplainerResultHandle(
 
     fun showError(message: String) {
         panel.showError(message)
-    }
-
-    fun setTitle(title: String) {
-        content.displayName = title
     }
 }

@@ -4,6 +4,9 @@ import com.example.ai_explainer_plugin.context.dto.EditorContext
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 
+/**
+ * Extracts the context of the editor from the AnActionEvent.
+ */
 object EditorContextExtractor {
     fun extract(e: AnActionEvent): EditorContext? {
         val project = e.project ?: return null

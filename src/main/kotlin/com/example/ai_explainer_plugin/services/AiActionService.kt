@@ -20,7 +20,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
+/**
+ * Service that handles actions from the plugin.
+ */
 @Service(Service.Level.PROJECT)
 class AiActionService(
     private val project: Project,
@@ -32,6 +34,10 @@ class AiActionService(
     companion object {
         private val LOG = Logger.getInstance(AiActionService::class.java)
     }
+
+    /**
+     * Generates code based on the user's prompt.
+     */
     fun generate(editorContext: EditorContext) {
         val inputDialog = GenerateCodeDialog(project)
         if (!inputDialog.showAndGet()) return
@@ -71,6 +77,9 @@ class AiActionService(
             }
         }
     }
+    /**
+     * Explains the code based on the user's prompt.
+     */
     fun explain(editorContext: EditorContext) {
         val toolWindowManager = project.service<ExplainerToolWindowManager>()
 

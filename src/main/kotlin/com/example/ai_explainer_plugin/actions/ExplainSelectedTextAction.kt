@@ -11,6 +11,9 @@ import com.example.ai_explainer_plugin.services.AiActionService
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.diagnostic.Logger
 
+/**
+ * Class that handles the action of explaining the selected text in the editor.
+ */
 class ExplainSelectedTextAction : AnAction() {
     companion object {
         private val LOG = Logger.getInstance(ExplainSelectedTextAction::class.java)
@@ -19,6 +22,9 @@ class ExplainSelectedTextAction : AnAction() {
         return ActionUpdateThread.BGT
     }
 
+    /**
+     * Enables the action only if there is a selection in the editor.
+     */
     override fun update(e: AnActionEvent) {
         val editor: Editor? = e.getData(CommonDataKeys.EDITOR)
         val hasSelection = editor?.selectionModel?.hasSelection() == true
@@ -26,6 +32,9 @@ class ExplainSelectedTextAction : AnAction() {
         e.presentation.isEnabledAndVisible = hasSelection
     }
 
+    /**
+     * Extracts the editor context and calls the AiActionService to explain the selected text.
+     */
     override fun actionPerformed(e: AnActionEvent) {
         LOG.info("ExplainSelectedTextAction clicked")
         val editorContext = ReadAction.compute<EditorContext?, RuntimeException> {

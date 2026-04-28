@@ -7,6 +7,9 @@ import java.awt.BorderLayout
 import javax.swing.JComponent
 import javax.swing.JPanel
 
+/**
+ * Dialog class for generation prompt of the user.
+ */
 class GenerateCodeDialog(project: Project) : DialogWrapper(project) {
     private val promptArea = JBTextArea(8, 200).apply {
         lineWrap = true

@@ -8,6 +8,9 @@ import javax.swing.JPanel
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
 
+/**
+ * Utility class for rendering Markdown to HTML.
+ */
 object MarkdownRenderer {
     private val parser = Parser.builder().build()
     private val renderer = HtmlRenderer.builder().build()
@@ -17,6 +20,10 @@ object MarkdownRenderer {
         return renderer.render(document)
     }
 }
+
+/**
+ * UI component for displaying the AI explanation in the tool window.
+ */
 class ExplainerPanel : Disposable {
     private val editorPane = JEditorPane().apply {
         contentType = "text/html"
