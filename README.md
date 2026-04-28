@@ -89,8 +89,8 @@ Currently, tests cover only the context extraction part.
 
 ## Limitations
 
-- Context limited to open file since I use LLM API and not the agents in the IDE.
-- No project-wide understanding yet
+- Context limited to opened file since I use LLM API and not the agents in the IDE.
+- No project-wide understanding yet.
 - LLM answer is not streamlined yet, so user needs to wait for the full answer to be generated after which it is displayed in IDE.
 
 ---
