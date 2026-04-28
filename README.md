@@ -17,6 +17,9 @@ An IntelliJ IDEA plugin that integrates ChatGPT API to **explain code** and **ge
 - Get a code snippet and option to accept / reject code snippet
 - Plugin inserts generated code at cursor position
 
+Here is a demo video to see how plugin works (it was tested on one of my Kotlin projects):
+[Watch the demo](https://drive.google.com/file/d/1aq40mH6pOsZ4Beh3Y4ZLm0xVpVh0urwJ/view?usp=drive_link)
+
 ---
 
 ## Setup
@@ -88,7 +91,7 @@ Currently, tests cover only the context extraction part.
 
 - Context limited to open file since I use LLM API and not the agents in the IDE.
 - No project-wide understanding yet
-- LLM answer is not streamlined yet, so user needs to wait for the answer and it can appear that IDE freezes, but it's not.
+- LLM answer is not streamlined yet, so user needs to wait for the full answer to be generated after which it is displayed in IDE.
 
 ---
 
