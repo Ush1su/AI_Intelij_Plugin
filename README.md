@@ -12,7 +12,7 @@ An IntelliJ IDEA plugin that integrates ChatGPT API to **explain code** and **ge
 - Get a language explanation of the selected code in the tool window
 
 ### 2. Generate Code from Prompt
-- Right click in any place in a file where you want to generate code
+- Right click in any place in a file where you want to generate code and press Explainer Plugin > Generate Code
 - Provide a prompt (e.g., "Create a REST API endpoint that does ....")
 - Get a code snippet and option to accept / reject code snippet
 - Plugin inserts generated code at cursor position
