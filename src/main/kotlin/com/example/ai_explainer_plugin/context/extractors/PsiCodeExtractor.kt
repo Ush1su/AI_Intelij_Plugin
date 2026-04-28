@@ -42,7 +42,6 @@ object PsiCodeExtractor {
             KtClass::class.java,
             false
         )
-        println(kotlinClass?.text ?: "null class")
         return javaClass?.text ?: kotlinClass?.text
     }
 

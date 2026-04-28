@@ -27,9 +27,10 @@ class LLMService(
     private val scope: CoroutineScope,
 ) {
     private val json = Json { ignoreUnknownKeys = true }
-    private val apiKey = System.getenv("OPENAI_API_KEY")
-        ?.takeIf { it.isNotBlank() }
-        ?: error("OPENAI_API_KEY is not set")
+    private fun getApiKey(): String =
+        System.getenv("OPENAI_API_KEY")
+            ?.takeIf { it.isNotBlank() }
+            ?: error("OPENAI_API_KEY is not set")
 
     private val httpClient = HttpClient.newBuilder()
         .connectTimeout(Duration.ofSeconds(10))
@@ -62,7 +63,7 @@ class LLMService(
         val request = HttpRequest.newBuilder()
             .uri(URI.create("https://api.openai.com/v1/responses"))
             .timeout(Duration.ofSeconds(60))
-            .header("Authorization", "Bearer $apiKey")
+            .header("Authorization", "Bearer ${getApiKey()}")
             .header("Content-Type", "application/json")
             .POST(HttpRequest.BodyPublishers.ofString(json.encodeToString(requestBody)))
             .build()

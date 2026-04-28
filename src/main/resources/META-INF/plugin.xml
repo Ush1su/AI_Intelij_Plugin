@@ -21,7 +21,6 @@
                     class="com.example.ai_explainer_plugin.actions.GenerateCodeAction"
                     text="Generate Code"
                     description="Generate code at the cursor">
-                <add-to-group group-id="EditorPopupMenu" anchor="last"/>
 
             </action>
         </group>

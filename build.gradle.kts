@@ -21,6 +21,7 @@ repositories {
 dependencies {
     implementation("org.commonmark:commonmark:0.25.1")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
+    testImplementation("junit:junit:4.12")
     intellijPlatform {
         create("IC", "2025.1.4.1")
         testFramework(org.jetbrains.intellij.platform.gradle.TestFrameworkType.Platform)
